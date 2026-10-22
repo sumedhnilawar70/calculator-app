@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_CRED = 'dockerhub-credentials'
-        DOCKER_IMAGE    = '<your-dockerhub-username>/calculator-app'
+        DOCKER_IMAGE    = '<your-dockerhub-username>  /calculator-app'
         IMAGE_TAG       = "${BUILD_NUMBER}"
     }
 
