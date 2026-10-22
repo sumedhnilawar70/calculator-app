@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calculator</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f0f2f5;
+      font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+      background: #22252d;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      width: 260px;
+    }
+
+    .display {
+      width: 100%;
+      height: 60px;
+      background: #2a2d36;
+      border: none;
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 28px;
+      text-align: right;
+      padding: 0 12px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 16px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #2a2d36;
+      color: #ffffff;
+      transition: background-color 0.15s ease;
+    }
+
+    button:hover {
+      background-color: #3b3f4a;
+    }
+
+    button.operator {
+      color: #eb6666;
+    }
+
+    button.clear {
+      color: #26e3a6;
+    }
+
+    button.equal {
+      background-color: #eb6666;
+      color: #ffffff;
+    }
+
+    button.equal:hover {
+      background-color: #d65353;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <input type="text" class="display" id="display" readonly value="0">
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button class="operator" onclick="appendValue('/')">&divide;</button>
+      <button class="operator" onclick="appendValue('*')">&times;</button>
+      <button class="operator" onclick="deleteLast()">&larr;</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button class="operator" onclick="appendValue('-')">-</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button class="operator" onclick="appendValue('+')">+</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button class="equal" onclick="calculate()">=</button>
+
+      <button onclick="appendValue('0')" style="grid-column: span 2;">0</button>
+      <button onclick="appendValue('.')">.</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function appendValue(val) {
+      if (display.value === '0' && val !== '.') {
+        display.value = val;
+      } else {
+        display.value += val;
+      }
+    }
+
+    function clearDisplay() {
+      display.value = '0';
+    }
+
+    function deleteLast() {
+      if (display.value.length === 1 || display.value === 'Error') {
+        display.value = '0';
+      } else {
+        display.value = display.value.slice(0, -1);
+      }
+    }
+
+    function calculate() {
+      try {
+        // Prevent evaluation of empty or invalid expressions
+        const result = Function('"use strict"; return (' + display.value + ')')();
+        display.value = Number.isFinite(result) ? result : 'Error';
+      } catch (e) {
+        display.value = 'Error';
+      }
+    }
+  </script>
+
+</body>
+</html>
